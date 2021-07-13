@@ -8,7 +8,7 @@ from game.models import Game
 
 class CreateGameView(generics.GenericAPIView):
     def post(self, *args, **kwargs):
-        game = Game()
+        game = Game(npc=self.request.data.get('npc'))
         game.save()
         return Response({'identifier': game.identifier})
 

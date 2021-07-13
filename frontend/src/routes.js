@@ -7,8 +7,10 @@ const routes = [
         element: <WelcomeScreen/>,
     },
     {
-        path: '/game',
+        path: '/game/:identifier/:action',
         element: <Game/>,
     }
 ]
+
+// we need to add the JoinComponent for redirects !important
 export default routes

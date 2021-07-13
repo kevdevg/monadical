@@ -3,6 +3,8 @@ import {createNewGame, joinToGame} from "../api/game";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {makeStyles} from "@material-ui/styles";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 const useStyles = makeStyles((theme) => ({
     mainContainer: {
         display: "flex",
@@ -17,13 +19,27 @@ const useStyles = makeStyles((theme) => ({
 
 const WelcomeScreen = ({}) => {
     const [code, setCode] = useState("")
+    const [npc, setNpc] = useState(false)
     const navigate = useNavigate()
     const classes = useStyles()
     return (
         <div className={classes.mainContainer}>
+            <FormControlLabel
+                control={
+                    <Checkbox
+                        checked={npc}
+                        onChange={(e) =>{
+                            setNpc(e.target.checked)
+                        }}
+                        name="checkedB"
+                        color="primary"
+                    />
+                }
+                label="Primary"
+            />
             <Button onClick={async () => {
-                const response = await createNewGame()
-                navigate('/game', {state: {identifier: response.identifier}})
+                const response = await createNewGame({npc})
+                navigate(`/game/${response.identifier}/1`)
             }} variant="contained">
                 Create new game
             </Button>
@@ -37,7 +53,7 @@ const WelcomeScreen = ({}) => {
             />
             <Button onClick={async () => {
                 const response = await joinToGame(code)
-                navigate('/game', {state: response})
+                navigate(`/game/`, {state: response})
             }} variant="contained">Join</Button>
         </div>
     )

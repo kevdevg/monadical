@@ -1,8 +1,14 @@
 import {BASE_URL} from "../constants";
 
-export const createNewGame = async () => {
+export const createNewGame = async ({npc}) => {
     const response = await fetch(`http://${BASE_URL}/create-game/`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            npc
+        })
     })
     return await response.json()
 }

@@ -1,15 +1,14 @@
 import {useEffect, useState} from "react";
 import Row from "./Row";
 import {Typography} from "@material-ui/core";
-import {useLocation} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {makeStyles} from "@material-ui/styles";
 import useWebSocket from "react-use-websocket";
 import {BASE_URL} from "../../constants";
 
-const Game = () => {
-    const {state = {}} = useLocation();
-    let {identifier} = state;
-    const socketUrl = `ws://${BASE_URL}/ws/game/${identifier}/`;
+const Game = ({watch}) => {
+    let {identifier, action} = useParams();
+    const socketUrl = action === 'watch' ? `ws://${BASE_URL}/ws/game/${identifier}/watch/` : `ws://${BASE_URL}/ws/game/${identifier}/`;
     const [player, setPlayer] = useState(0)
     const [turn, setTurn] = useState(0)
     const [winner, setWinner] = useState(0)
